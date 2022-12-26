@@ -80,8 +80,12 @@ function reportCurrentSpeed(){
     reportBoxSays(`The current interval duration is ${reduced} ${timeUnit}`)
 }
 
-function getCurrentHue(){
-    return sessionStorage.getItem('currentHue')
+function getCurrentHSL(){
+    return [
+        sessionStorage.getItem('currentHue'),
+        sessionStorage.getItem('currentSat'),
+        sessionStorage.getItem('currentLig')
+    ]
 }
 
 button.addEventListener('click', ()=>{
@@ -127,5 +131,5 @@ stopButton.addEventListener('click',()=>{
 
 darkButton.addEventListener('click',()=>{
     clearColorInterval()
-    
+    const hsl = getCurrentHSL();
 })
