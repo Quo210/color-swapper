@@ -22,6 +22,7 @@ function setNewColor(){
     const newCol = hueGen();
     const forBackground = genHSL(newCol,100,50);
     saveCurrentColor(forBackground)
+    saveCurrentHue(newCol)
     body.setAttribute('style',`background-color: ${forBackground}`)
     button.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
     button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
@@ -30,7 +31,11 @@ function setNewColor(){
 }
 
 function saveCurrentColor(string){
-    sessionStorage.setItem('currentColor',string)
+    sessionStorage.setItem('currentColor', string)
+}
+
+function saveCurrentHue(string){
+    sessionStorage.setItem('currentHue', string)
 }
 
 function getCurrentColor(){
@@ -91,6 +96,7 @@ fastButton.addEventListener('click',()=>{
     }
     clearColorInterval()
     createInterval(lastOne / 2)
+    reportCurrentSpeed()
 })
 
 slowButton.addEventListener('click',()=>{
@@ -100,6 +106,7 @@ slowButton.addEventListener('click',()=>{
     }
     clearColorInterval()
     createInterval(lastOne * 2)
+    reportCurrentSpeed()
 })
 
 stopButton.addEventListener('click',()=>{
