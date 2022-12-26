@@ -7,6 +7,7 @@ const stopButton = document.querySelector('.stop')
 const reportBox = document.querySelector('.message')
 const darkButton = document.querySelector('.dark')
 const lightButton = document.querySelector('.light')
+sessionStorage.clear()
 
 setNewColor()
 
@@ -19,7 +20,7 @@ function hueGen(){
     return Math.floor(Math.random() * 255) + 1
 }
 
-function setNewColor(hue = undefined,sat = undefined,lig = undefined){
+function setNewColor(hue = undefined,sat = getCurrentHSL()[1],lig = getCurrentHSL()[2]){
     const newCol = (!hue)? hueGen() : hue;
     const baseS = (!sat)? 100 : sat;
     const baseL = (!lig)? 50 : lig;
@@ -48,7 +49,7 @@ function getCurrentColor(){
 }
 
 function clearColorInterval(){
-    clearInterval(sessionStorage.getItem('interval'))
+    clearInterval(sessionStorage.getItem('intervalId'))
 }
 
 function getCurrentSpeed(){
@@ -59,7 +60,7 @@ function createInterval(last,h,s,l){
     const myInt = setInterval( () => {
         setNewColor(h,s,l)
     }, last)
-    sessionStorage.setItem('interval',myInt)
+    sessionStorage.setItem('intervalId',myInt)
     sessionStorage.setItem('intDuration',last)
 }
 
@@ -80,6 +81,14 @@ function reportCurrentSpeed(){
     reportBoxSays(`The current interval duration is ${reduced} ${timeUnit}`)
 }
 
+function isIntervalRunning(){
+    return sessionStorage.getItem('intStatus')
+}
+
+function setIntervalStatus(int){
+    sessionStorage.setItem('intStatus', int)
+}
+
 function getCurrentHSL(){
     return [
         sessionStorage.getItem('currentHue'),
@@ -92,6 +101,7 @@ button.addEventListener('click', ()=>{
     clearColorInterval()
     setNewColor()
     reportCurrentColor()
+    setIntervalStatus(false)
 })
 
 button2.addEventListener('click',()=>{
@@ -102,6 +112,7 @@ button2.addEventListener('click',()=>{
     clearColorInterval()
     createInterval(intervalDuration)
     reportCurrentSpeed()
+    setIntervalStatus(true)
 })
 
 fastButton.addEventListener('click',()=>{
@@ -127,9 +138,19 @@ slowButton.addEventListener('click',()=>{
 stopButton.addEventListener('click',()=>{
     clearColorInterval()
     reportCurrentColor()
+    setIntervalStatus(false)
 })
 
 darkButton.addEventListener('click',()=>{
     clearColorInterval()
     const hsl = getCurrentHSL();
+    const darker = (hsl[2] <= 10)? 1 : hsl[2] - 10;
+    console.log(hsl,darker)
+    if (isIntervalRunning()){
+        createInterval(getCurrentSpeed(), hsl[0],hsl[1],darker)
+    } else {
+        setNewColor(hsl[0],hsl[1],darker)
+    }
+    saveHSLParameters(hsl[0], hsl[1], darker)
+    reportCurrentColor()
 })
