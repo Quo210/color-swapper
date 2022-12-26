@@ -1,6 +1,7 @@
 const body = document.querySelector('body')
 const button = document.querySelector('button.activate')
 const button2 = document.querySelector('button.loop')
+const fastButton = document.querySelector('.faster')
 
 
 setNewColor()
@@ -26,7 +27,13 @@ function clearColorInterval(){
 }
 
 function getLastInterval(){
-    return sessionStorage.getItem('lastInterval')
+    return sessionStorage.getItem('intDuration')
+}
+
+function createInterval(last){
+    const myInt = setInterval(setNewColor,last)
+    sessionStorage.setItem('interval',myInt)
+    sessionStorage.setItem('intDuration',last)
 }
 
 button.addEventListener('click', ()=>{
@@ -35,12 +42,22 @@ button.addEventListener('click', ()=>{
 })
 
 button2.addEventListener('click',()=>{
-    const lastOne = getLastInterval();
-    if (!lastOne){
-        lastOne = 1000
+    let intervalDuration = getLastInterval();
+    if (!intervalDuration){
+        intervalDuration = 1000
     }
     clearColorInterval()
-    const myInt = setInterval(setNewColor,lastOne)
-    sessionStorage.setItem('interval',myInt)
+    createInterval(intervalDuration)
     console.log(sessionStorage.getItem('interval'))
+})
+
+fastButton.addEventListener('click',()=>{
+    const lastOne = getLastInterval();
+    if (!lastOne){
+        console.log('cancelled!')
+        return 
+    }
+    clearColorInterval()
+    createInterval(lastOne / 2)
+    console.log(lastOne / 2)
 })
