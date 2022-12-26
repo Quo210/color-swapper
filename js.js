@@ -3,6 +3,7 @@ const button = document.querySelector('button.activate')
 const button2 = document.querySelector('button.loop')
 const fastButton = document.querySelector('.faster')
 const slowButton = document.querySelector('.slower')
+const stopButton = document.querySelector('.stop')
 
 
 setNewColor()
@@ -21,6 +22,8 @@ function setNewColor(){
     body.setAttribute('style',`background-color: ${genHSL(newCol,100,50)}`)
     button.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
     button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
+    fastButton.setAttribute('style',`background-color: ${genHSL(newCol,50,55)}; border-color: ${genHSL(newCol,95,25)}`)
+    slowButton.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
 }
 
 function clearColorInterval(){
@@ -68,4 +71,8 @@ slowButton.addEventListener('click',()=>{
     }
     clearColorInterval()
     createInterval(lastOne * 2)
+})
+
+stopButton.addEventListener('click',()=>{
+    clearColorInterval()
 })
