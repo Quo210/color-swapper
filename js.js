@@ -41,7 +41,7 @@ function clearColorInterval(){
     clearInterval(sessionStorage.getItem('interval'))
 }
 
-function getLastInterval(){
+function getCurrentSpeed(){
     return sessionStorage.getItem('intDuration')
 }
 
@@ -51,9 +51,21 @@ function createInterval(last){
     sessionStorage.setItem('intDuration',last)
 }
 
+function reportBoxSays(string){
+    reportBox.textContent = string
+}
+
 function reportCurrentColor(){
     const message = getCurrentColor();
-    reportBox.textContent = `The current color is ${message}`
+    reportBoxSays(`The current color is ${message}`)
+}
+
+function reportCurrentSpeed(){
+    const speed = getCurrentSpeed()
+    const reduced = Math.round(speed * 1000 ) / 1000000;
+    let timeUnit = '';
+    (reduced != 1)? timeUnit = 'seconds' : timeUnit = 'second'; 
+    reportBoxSays(`The current interval duration is ${reduced} ${timeUnit}`)
 }
 
 button.addEventListener('click', ()=>{
@@ -63,17 +75,17 @@ button.addEventListener('click', ()=>{
 })
 
 button2.addEventListener('click',()=>{
-    let intervalDuration = getLastInterval();
+    let intervalDuration = getCurrentSpeed();
     if (!intervalDuration){
         intervalDuration = 1000
     }
     clearColorInterval()
     createInterval(intervalDuration)
-    console.log(sessionStorage.getItem('interval'))
+    reportCurrentSpeed()
 })
 
 fastButton.addEventListener('click',()=>{
-    const lastOne = getLastInterval();
+    const lastOne = getCurrentSpeed();
     if (!lastOne){
         return 
     }
@@ -82,7 +94,7 @@ fastButton.addEventListener('click',()=>{
 })
 
 slowButton.addEventListener('click',()=>{
-    const lastOne = getLastInterval();
+    const lastOne = getCurrentSpeed();
     if (!lastOne){
         return 
     }
