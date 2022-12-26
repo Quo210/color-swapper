@@ -4,6 +4,7 @@ const button2 = document.querySelector('button.loop')
 const fastButton = document.querySelector('.faster')
 const slowButton = document.querySelector('.slower')
 const stopButton = document.querySelector('.stop')
+const reportBox = document.querySelector('.message')
 
 
 setNewColor()
@@ -33,7 +34,7 @@ function saveCurrentColor(string){
 }
 
 function getCurrentColor(){
-    sessionStorage.getItem('currentColor')
+    return sessionStorage.getItem('currentColor')
 }
 
 function clearColorInterval(){
@@ -51,7 +52,8 @@ function createInterval(last){
 }
 
 function reportCurrentColor(){
-
+    const message = getCurrentColor();
+    reportBox.textContent = `The current color is ${message}`
 }
 
 button.addEventListener('click', ()=>{
