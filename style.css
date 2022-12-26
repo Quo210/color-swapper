@@ -1,0 +1,18 @@
+.container {
+    margin: auto;
+    margin-top: 20vh;
+    text-align: center;
+    margin-top: ;
+    width: 80vw;
+    height: 50vh;
+    min-width: 800px;
+    background-color: hsla(255, 5%, 10%, 0.5);
+    border: 5px solid hsla(255, 5%, 10%, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+* {
+    transition: 500ms;
+}
