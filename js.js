@@ -25,14 +25,22 @@ function clearColorInterval(){
     clearInterval(sessionStorage.getItem('interval'))
 }
 
+function getLastInterval(){
+    return sessionStorage.getItem('lastInterval')
+}
+
 button.addEventListener('click', ()=>{
     clearColorInterval()
     setNewColor()
 })
 
 button2.addEventListener('click',()=>{
+    const lastOne = getLastInterval();
+    if (!lastOne){
+        lastOne = 1000
+    }
     clearColorInterval()
-    const myInt = setInterval(setNewColor,1000)
+    const myInt = setInterval(setNewColor,lastOne)
     sessionStorage.setItem('interval',myInt)
     console.log(sessionStorage.getItem('interval'))
 })
