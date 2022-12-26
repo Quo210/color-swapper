@@ -3,7 +3,7 @@ const button = document.querySelector('button.activate')
 const button2 = document.querySelector('button.loop')
 
 
-body.setAttribute('style',`background-color: ${genHSL(hueGen(),100,50)}`)
+setNewColor()
 
 function genHSL(hue,sat,lig){
     const base = `hsl(${hue}, ${sat}%, ${lig}%)`;
@@ -15,15 +15,23 @@ function hueGen(){
 }
 
 function setNewColor(){
-    body.setAttribute('style',`background-color: ${genHSL(hueGen(),100,50)}`)
+    const newCol = hueGen();
+    body.setAttribute('style',`background-color: ${genHSL(newCol,100,50)}`)
+    button.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
+    button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
+}
+
+function clearColorInterval(){
+    clearInterval(sessionStorage.getItem('interval'))
 }
 
 button.addEventListener('click', ()=>{
-    clearInterval(sessionStorage.getItem('interval'))
+    clearColorInterval()
     setNewColor()
 })
 
 button2.addEventListener('click',()=>{
+    clearColorInterval()
     const myInt = setInterval(setNewColor,1000)
     sessionStorage.setItem('interval',myInt)
     console.log(sessionStorage.getItem('interval'))

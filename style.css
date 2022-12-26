@@ -2,7 +2,6 @@
     margin: auto;
     margin-top: 20vh;
     text-align: center;
-    margin-top: ;
     width: 80vw;
     height: 50vh;
     min-width: 800px;
@@ -15,4 +14,10 @@
 
 * {
     transition: 500ms;
+}
+
+button{
+    font-size: large;
+    font-family: Verdana;
+    padding: 0.2rem 1rem;
 }
