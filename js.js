@@ -59,6 +59,7 @@ function reportCurrentColor(){
 button.addEventListener('click', ()=>{
     clearColorInterval()
     setNewColor()
+    reportCurrentColor()
 })
 
 button2.addEventListener('click',()=>{
@@ -91,4 +92,5 @@ slowButton.addEventListener('click',()=>{
 
 stopButton.addEventListener('click',()=>{
     clearColorInterval()
+    reportCurrentColor()
 })
