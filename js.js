@@ -19,11 +19,21 @@ function hueGen(){
 
 function setNewColor(){
     const newCol = hueGen();
-    body.setAttribute('style',`background-color: ${genHSL(newCol,100,50)}`)
+    const forBackground = genHSL(newCol,100,50);
+    saveCurrentColor(forBackground)
+    body.setAttribute('style',`background-color: ${forBackground}`)
     button.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
     button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
     fastButton.setAttribute('style',`background-color: ${genHSL(newCol,50,55)}; border-color: ${genHSL(newCol,95,25)}`)
     slowButton.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
+}
+
+function saveCurrentColor(string){
+    sessionStorage.setItem('currentColor',string)
+}
+
+function getCurrentColor(){
+    sessionStorage.getItem('currentColor')
 }
 
 function clearColorInterval(){
@@ -38,6 +48,10 @@ function createInterval(last){
     const myInt = setInterval(setNewColor,last)
     sessionStorage.setItem('interval',myInt)
     sessionStorage.setItem('intDuration',last)
+}
+
+function reportCurrentColor(){
+
 }
 
 button.addEventListener('click', ()=>{
