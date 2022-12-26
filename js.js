@@ -19,13 +19,13 @@ function hueGen(){
     return Math.floor(Math.random() * 255) + 1
 }
 
-function setNewColor(){
-    const newCol = hueGen();
-    const baseS = 100;
-    const baseL = 50;
+function setNewColor(hue,sat,lig){
+    const newCol = (!hue)? hueGen() : hue;
+    const baseS = (!sat)? 100 : sat;
+    const baseL = (!lig)? 50 : lig;
     const forBackground = genHSL(newCol,baseS,baseL);
     saveCurrentColor(forBackground)
-    saveCurrentHue(newCol)
+    saveHSLParameters(newCol,baseS,baseL)
     body.setAttribute('style',`background-color: ${forBackground}`)
     button.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
     button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
@@ -37,8 +37,10 @@ function saveCurrentColor(string){
     sessionStorage.setItem('currentColor', string)
 }
 
-function saveCurrentHue(string){
-    sessionStorage.setItem('currentHue', string)
+function saveHSLParameters(h,s,l){
+    sessionStorage.setItem('currentHue', h)
+    sessionStorage.setItem('currentSat', s)
+    sessionStorage.setItem('currentLig', l)
 }
 
 function getCurrentColor(){
