@@ -5,7 +5,8 @@ const fastButton = document.querySelector('.faster')
 const slowButton = document.querySelector('.slower')
 const stopButton = document.querySelector('.stop')
 const reportBox = document.querySelector('.message')
-
+const darkButton = document.querySelector('.dark')
+const lightButton = document.querySelector('.light')
 
 setNewColor()
 
@@ -20,7 +21,9 @@ function hueGen(){
 
 function setNewColor(){
     const newCol = hueGen();
-    const forBackground = genHSL(newCol,100,50);
+    const baseS = 100;
+    const baseL = 50;
+    const forBackground = genHSL(newCol,baseS,baseL);
     saveCurrentColor(forBackground)
     saveCurrentHue(newCol)
     body.setAttribute('style',`background-color: ${forBackground}`)
@@ -51,7 +54,9 @@ function getCurrentSpeed(){
 }
 
 function createInterval(last){
-    const myInt = setInterval(setNewColor,last)
+    const myInt = setInterval( () => {
+        setNewColor()
+    }, last)
     sessionStorage.setItem('interval',myInt)
     sessionStorage.setItem('intDuration',last)
 }
@@ -71,6 +76,10 @@ function reportCurrentSpeed(){
     let timeUnit = '';
     (reduced != 1)? timeUnit = 'seconds' : timeUnit = 'second'; 
     reportBoxSays(`The current interval duration is ${reduced} ${timeUnit}`)
+}
+
+function getCurrentHue(){
+    return sessionStorage.getItem('currentHue')
 }
 
 button.addEventListener('click', ()=>{
@@ -112,4 +121,9 @@ slowButton.addEventListener('click',()=>{
 stopButton.addEventListener('click',()=>{
     clearColorInterval()
     reportCurrentColor()
+})
+
+darkButton.addEventListener('click',()=>{
+    clearColorInterval()
+    
 })
