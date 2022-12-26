@@ -19,7 +19,7 @@ function hueGen(){
     return Math.floor(Math.random() * 255) + 1
 }
 
-function setNewColor(hue,sat,lig){
+function setNewColor(hue = undefined,sat = undefined,lig = undefined){
     const newCol = (!hue)? hueGen() : hue;
     const baseS = (!sat)? 100 : sat;
     const baseL = (!lig)? 50 : lig;
@@ -55,9 +55,9 @@ function getCurrentSpeed(){
     return sessionStorage.getItem('intDuration')
 }
 
-function createInterval(last){
+function createInterval(last,h,s,l){
     const myInt = setInterval( () => {
-        setNewColor()
+        setNewColor(h,s,l)
     }, last)
     sessionStorage.setItem('interval',myInt)
     sessionStorage.setItem('intDuration',last)
