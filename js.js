@@ -2,6 +2,7 @@ const body = document.querySelector('body')
 const button = document.querySelector('button.activate')
 const button2 = document.querySelector('button.loop')
 const fastButton = document.querySelector('.faster')
+const slowButton = document.querySelector('.slower')
 
 
 setNewColor()
@@ -54,10 +55,17 @@ button2.addEventListener('click',()=>{
 fastButton.addEventListener('click',()=>{
     const lastOne = getLastInterval();
     if (!lastOne){
-        console.log('cancelled!')
         return 
     }
     clearColorInterval()
     createInterval(lastOne / 2)
-    console.log(lastOne / 2)
+})
+
+slowButton.addEventListener('click',()=>{
+    const lastOne = getLastInterval();
+    if (!lastOne){
+        return 
+    }
+    clearColorInterval()
+    createInterval(lastOne * 2)
 })
