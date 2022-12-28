@@ -32,6 +32,10 @@ function setNewColor(hue = undefined,sat = getCurrentHSL()[1],lig = getCurrentHS
     button2.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
     fastButton.setAttribute('style',`background-color: ${genHSL(newCol,50,55)}; border-color: ${genHSL(newCol,95,25)}`)
     slowButton.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
+    stopButton.setAttribute('style',`background-color: ${genHSL(newCol,50,55)}; border-color: ${genHSL(newCol,95,25)}`)
+    darkButton.setAttribute('style',`background-color: ${genHSL(newCol,50,65)}; border-color: ${genHSL(newCol,95,25)}`)
+    lightButton.setAttribute('style',`background-color: ${genHSL(newCol,50,75)}; border-color: ${genHSL(newCol,95,25)}`)
+
 }
 
 function saveCurrentColor(string){
@@ -58,7 +62,7 @@ function getCurrentSpeed(){
 
 function createInterval(last,h,s,l){
     const myInt = setInterval( () => {
-        setNewColor(h,s,l)
+        setNewColor()
     }, last)
     sessionStorage.setItem('intervalId',myInt)
     sessionStorage.setItem('intDuration',last)
@@ -122,6 +126,7 @@ fastButton.addEventListener('click',()=>{
     }
     clearColorInterval()
     createInterval(lastOne / 2)
+    setIntervalStatus(true)
     reportCurrentSpeed()
 })
 
@@ -132,6 +137,7 @@ slowButton.addEventListener('click',()=>{
     }
     clearColorInterval()
     createInterval(lastOne * 2)
+    setIntervalStatus(true)
     reportCurrentSpeed()
 })
 
@@ -145,12 +151,41 @@ darkButton.addEventListener('click',()=>{
     clearColorInterval()
     const hsl = getCurrentHSL();
     const darker = (hsl[2] <= 10)? 1 : hsl[2] - 10;
-    console.log(hsl,darker)
-    if (isIntervalRunning()){
+    if (isIntervalRunning() == 'true'){
+        setNewColor(hsl[0],hsl[1],darker);
+        (getCurrentSpeed() >= 1000)? reportCurrentColor() : false;
         createInterval(getCurrentSpeed(), hsl[0],hsl[1],darker)
+        setIntervalStatus(true)
+        setTimeout(function(){
+            saveHSLParameters(hsl[0], hsl[1], darker);
+            reportCurrentSpeed()
+        }, getCurrentSpeed())
     } else {
         setNewColor(hsl[0],hsl[1],darker)
+        setIntervalStatus(false)
+        saveHSLParameters(hsl[0], hsl[1], darker)
+        reportCurrentColor()
     }
-    saveHSLParameters(hsl[0], hsl[1], darker)
-    reportCurrentColor()
+})
+
+lightButton.addEventListener('click',()=>{
+    clearColorInterval()
+    const hsl = getCurrentHSL();
+    const lighter = (hsl[2] >= 90)? 100 : (hsl[2] < 10)? 10 : parseInt(hsl[2]) + 10;
+    if (isIntervalRunning() == 'true'){
+        setNewColor(hsl[0],hsl[1],lighter);
+        (getCurrentSpeed() >= 1000)? reportCurrentColor() : false;
+        createInterval(getCurrentSpeed(), hsl[0],hsl[1],lighter)
+        setIntervalStatus(true)
+        setTimeout(function(){
+            saveHSLParameters(hsl[0], hsl[1], lighter);
+            reportCurrentSpeed()
+        }, getCurrentSpeed())
+    } else {
+        setNewColor(hsl[0],hsl[1],lighter)
+        setIntervalStatus(false)
+        saveHSLParameters(hsl[0], hsl[1], lighter)
+        reportCurrentColor()
+    }
+    
 })
