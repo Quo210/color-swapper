@@ -61,11 +61,15 @@ function getCurrentSpeed(){
 }
 
 function createInterval(last,h,s,l){
+    let timer = last;
+    if(timer < 250){
+        timer = 250
+    }
     const myInt = setInterval( () => {
         setNewColor()
     }, last)
     sessionStorage.setItem('intervalId',myInt)
-    sessionStorage.setItem('intDuration',last)
+    sessionStorage.setItem('intDuration',timer)
 }
 
 function reportBoxSays(string){
